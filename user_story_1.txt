@@ -1,0 +1,92 @@
+#include "StdAfx.h"
+#include<GLUt.h>
+#include<math.h>
+#include<stdlib.h>
+
+float WinWid=1400.0;
+float WinHei=800.0;
+
+
+
+void Draw()
+{
+	glClear(GL_COLOR_BUFFER_BIT);
+	glColor3f(0.0, 0.0, 0.0);
+	glLineWidth(2);
+	glBegin(GL_LINE_LOOP);//Труба
+	glVertex2f(500,-300);
+	glVertex2f(500,200);
+	glVertex2f(510,200);
+	glVertex2f(510,-300);
+	glEnd();
+	glBegin(GL_LINE_LOOP);//Нижній блок
+	glVertex2f(490,145);
+	glVertex2f(490,165);
+	glVertex2f(520,165);
+	glVertex2f(520,145);
+	glEnd();
+	glBegin(GL_LINE_LOOP);//Лівий_с
+	glVertex2f(469,166);
+	glVertex2f(469,186);
+	glVertex2f(499,186);
+	glVertex2f(499,166);
+	glEnd();
+	glBegin(GL_LINE_LOOP);//Лівий_в
+	glVertex2f(454,187);
+	glVertex2f(454,207);
+	glVertex2f(484,207);
+	glVertex2f(484,187);
+	glEnd();
+		glBegin(GL_LINE_LOOP);//Правий_с
+	glVertex2f(511,166);
+	glVertex2f(511,186);
+	glVertex2f(541,186);
+	glVertex2f(541,166);
+	glEnd();
+	glBegin(GL_LINE_LOOP);//Правий_в
+	glVertex2f(526,187);
+	glVertex2f(526,207);
+	glVertex2f(556,207);
+	glVertex2f(556,187);
+	glEnd();
+glLineWidth(6);//підлога
+	glBegin(GL_LINES);
+	glVertex2f(-600, -300);
+	glVertex2f(600, -300);
+    glEnd();
+	
+	glColor3f(1.0, 1.0, 1.0);//поправка
+	glLineWidth(2);
+	glBegin(GL_QUADS);
+	glVertex2f(491, 146);
+	glVertex2f(491, 164);
+	glVertex2f(519, 164);
+	glVertex2f(519, 146);
+    glEnd();
+		glFlush();
+	
+}
+
+void Initialize()
+{
+	glClearColor(1.0, 1.0, 1.0, 1.0);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glOrtho(-WinWid/2, WinWid/2, -WinHei/2, WinHei/2, 0.1, -0.1);
+
+}
+
+int main(int argc, char** argv)
+{
+	//Ініціалізація
+	glutInit(&argc, argv);
+	glutInitDisplayMode(GLUT_SINGLE|GLUT_RGB);
+	glutInitWindowSize(WinWid,WinHei);
+	glutInitWindowPosition(100,200);
+	glutCreateWindow("WOW");
+	//Реєстрація
+	glutDisplayFunc(Draw);
+	Initialize();
+	glutMainLoop();
+return 0;
+}
