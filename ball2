@@ -1,0 +1,76 @@
+#include "StdAfx.h"
+#include<GLUt.h>
+#include<math.h>
+#include<stdlib.h>
+#include "ball2.h"
+
+float Ball2AngleMove=-90.0, Ball2AngleMove2=-120.0, Ball2AngleMove3=-20.0, Ball2AngleMove4=-20.0,/* angles for movement along the trajectory of second ball(кути для руху по траєкторії другої кулі)*/
+Ball2CoordinateX=0.0, Ball2CoordinateY=0.0,//coordinates for the second ball (координати для другої кулі)
+Ball2MoveEnd=930.0,//coordinate to stop the movement of the second ball (координата для зупинки руху другої кулі)
+Ball2MoveDown=0.0,
+Meter2=0.0;
+
+
+Ball2::Ball2()
+{
+}
+
+float Ball2::Ball2Draw()
+{
+	Meter2++;
+	if(Meter2>224.0)
+	{
+    glColor3f(0.45, 0.25, 0.25);//color of ball (колір кулі)
+	glPushMatrix();
+	glTranslatef(0,Ball2MoveDown,0);//MoveDown ball and basket (опускання з кошиком)
+	glTranslatef(-580, -160, 0.0);
+	glTranslatef(Ball2CoordinateX, Ball2CoordinateY, 0.0);//Move ball (рух кулі)
+	glPopMatrix();
+
+	Ball2CoordinateX=209.0+210*sin(Ball2AngleMove*(3.14/180));//trajectory movement _1 траєкторія руху_1
+	Ball2CoordinateY=3+210*cos(Ball2AngleMove*(3.14/180));
+	Ball2AngleMove+=1;//beginning of the second ball movement  (початок руху першої кулі)
+	
+	if (Ball2AngleMove>-30.0)//condition reverse movement of the  catapult shoulder and bucket (умова зміни траєкторії та умова зворотнього руху плеча та ковша катапульти)
+	{
+    Ball2CoordinateX=818+550*sin(Ball2AngleMove2*(3.14/180))*1.5;//trajectory movement _2 (траєкторія руху_2)
+	Ball2CoordinateY=-14+340*cos(Ball2AngleMove2*(3.14/180))*1.17;
+	}
+	
+	Ball2AngleMove2+=1;
+	if (Ball2AngleMove2>18.0)//condition changes the trajectory (умова зміни траєкторії)
+	{
+    Ball2CoordinateX=1180+550*cos(Ball2AngleMove3*(3.14/180))*0.5;//trajectory movement _3 (траєкторія руху_3)
+	Ball2CoordinateY=-298+500*sin(Ball2AngleMove3*(3.14/180))*1.5;
+	}
+	
+	Ball2AngleMove3++;
+	if (Ball2AngleMove3>155.0)//(умова зміни траєкторії)
+	{
+    Ball2CoordinateY=-160+200*cos(Ball2AngleMove4*(3.14/180));//trajectory movement _4 (траєкторія руху_4)
+	Ball2CoordinateX=Ball2MoveEnd;
+	
+	Ball2MoveEnd-=1.5;
+	if (Ball2MoveEnd<907) //condition to stop movement ball (умова зупинки кулі) 
+	{
+	Ball2MoveEnd+=1.5;//end of the second ball movement  (кінець руху другої  кулі)
+	}
+	}
+    }
+    return 0;
+}
+
+float Ball2::Ball2Move()
+{
+	if(Meter2>415)
+	{
+    Ball2MoveDown-=1;// nimation speed on Coordinate y  (швидкість спуску по у) 
+	       
+    if(Ball2MoveDown<(-126))// condition traffic stop basket and ball (умова зупинки руху кошика та кулі )
+	{
+	Ball2MoveDown=(-126);
+	}
+	}
+    return 0;
+}
+
