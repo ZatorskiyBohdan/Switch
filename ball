@@ -1,0 +1,80 @@
+
+						//-------------------------------------------Libraries(Бібліотеки)------------------------------------------
+
+#include "StdAfx.h"
+#include<GLUt.h>
+#include<math.h>
+#include<stdlib.h>
+#include "ball.h"
+
+//-------------------------------Constants and Variables(Константи та змінні)--------------------------------
+
+float BallCoordinateX=0.0, BallCoordinateY=0.0,//coordinates for the first ball (координати для першої кулі)
+BallAngleMove=-90.0, BallAngleMove2=-120.0, BallAngleMove3=-20.0, BallAngleMove4=-20.0,/* angles for movement along the trajectory of first ball
+																					   (кути для руху по траєкторії першой кулі)*/
+Meter6=0.0,
+BallMoveDown=0.0, //with basket 
+BallMoveEnd=930.0;//coordinate to stop the movement of the first ball (координата для зупинки руху першой кулі)
+	
+
+Ball::Ball()
+{
+}
+
+float Ball::BallDraw()
+{
+	glColor3f(0.25, 0.25, 0.45);// color of ball (колір кулі)
+	glPushMatrix();
+	glTranslatef(0,BallMoveDown,0);//MoveDown ball and basket (опускання з кошиком)
+	glTranslatef(-580, -160, 0.0);
+	glTranslatef(BallCoordinateX, BallCoordinateY, 0.0);//Move ball (рух кулі)
+	glutSolidSphere(25.0, 15, 15);
+	glPopMatrix();
+	
+	BallCoordinateX=209.0+210*sin(BallAngleMove*(3.14/180));// trajectory movement _1 траєкторія руху_1
+	BallCoordinateY=3+210*cos(BallAngleMove*(3.14/180));
+	BallAngleMove+=1;//beginning of the first ball movement  (початок руху першої кулі)
+			
+	if (BallAngleMove>-29.0)// condition reverse movement of the  catapult shoulder and bucket (умова зміни траєкторії та умова зворотнього руху плеча та ковша катапульти)
+	{
+	BallCoordinateX=818+550*sin(BallAngleMove2*(3.14/180))*1.5;//trajectory movement _2 (траєкторія руху_2)
+	BallCoordinateY=-14+340*cos(BallAngleMove2*(3.14/180))*1.17;
+	}
+	
+	BallAngleMove2+=1;
+	if (BallAngleMove2>16.0)// condition changes the trajectory (умова зміни траєкторії)
+	{
+	BallCoordinateX=1108+400*cos(BallAngleMove3*(3.14/180))*0.5;//trajectory movement _3 (траєкторія руху_3)
+	BallCoordinateY=-314+500*sin(BallAngleMove3*(3.14/180))*1.5;
+	}
+	
+	BallAngleMove3++;
+
+	if (BallAngleMove3>154.0)//condition changes the trajectory (умова зміни траєкторії)
+	{
+    BallCoordinateY=-160+200*cos(BallAngleMove4*(3.14/180));//trajectory movement _4 (траєкторія руху_4)
+	BallCoordinateX=BallMoveEnd;
+	
+	BallMoveEnd-=1.5;
+	if (BallMoveEnd<859) //condition to stop movement ball (умова зупинки кулі) 
+	{
+	BallMoveEnd+=1.5;//end of the ball movement  (кінець руху першої кулі)
+    }
+	}
+	return 0;
+}
+
+float Ball::BallMove()
+{
+	Meter6++;
+	if(Meter6>415)
+	{
+    BallMoveDown-=1;// animation speed on Coordinate y  (швидкість спуску по у) 
+	       
+    if(BallMoveDown<(-126))//condition traffic stop basket and ball (умова зупинки руху кошика та кулі )
+	{
+    BallMoveDown=(-126);
+	}
+	}
+    return 0;
+}
