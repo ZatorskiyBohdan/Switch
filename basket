@@ -1,0 +1,82 @@
+#include "StdAfx.h"
+#include<GLUt.h>
+#include<math.h>
+#include<stdlib.h>
+#include "basket.h"
+
+float BasketMoveDown=0.0,//coordinates for the Basket (координати для кошика)
+Meter5=0.0;
+
+Basket::Basket()
+{
+	
+}
+
+float Basket::BasketDraw()
+{
+    glColor3f(0.0, 0.0, 0.0);//color drawing (колір малювання)
+	glLineWidth(2);
+	
+	glPushMatrix();
+	glTranslatef(0,BasketMoveDown,0);
+	glBegin(GL_LINE_LOOP);//basket (кошик)
+	glVertex2f(240,-40);
+	glVertex2f(240,-170);
+	glVertex2f(415,-170);
+	glVertex2f(415,-40);
+	glVertex2f(400,-40);
+	glVertex2f(400,-155);
+	glVertex2f(255,-155);
+	glVertex2f(255,-40);
+	glEnd();
+	
+	glBegin(GL_LINE_LOOP);//basis of basket  (основа кошика (Ніжка кошика))
+    glVertex2f(307.5,-170);
+	glVertex2f(347.5,-170);
+	glVertex2f(347.5,-300);
+	glVertex2f(307.5,-300);
+	glEnd();
+	
+	glBegin(GL_QUADS);//color of  basket (колір кошика (внутрішній колір кошика))
+	glColor3f(0.75, 0.75, 0.75);
+	glVertex2f(241,-41);
+	glVertex2f(241,-169);
+	glVertex2f(254,-169);
+	glVertex2f(254,-41);
+	
+	glVertex2f(254,-169);
+	glVertex2f(254,-156);
+	glVertex2f(401,-156);
+	glVertex2f(401,-169);
+
+	glVertex2f(401,-169);
+	glVertex2f(414,-169);
+	glVertex2f(414,-41);
+	glVertex2f(401,-41);
+	glEnd();
+    glPopMatrix();
+	return 0;
+}
+
+float Basket::BasketMove()
+{
+	Meter5++;
+	if(Meter5>415)
+	{
+	glColor3f(1.0,1.0,1.0);
+	
+	glBegin(GL_POLYGON);
+	glVertex2f(300,-303);
+	glVertex2f(350,-303);
+	glVertex2f(350,-600);
+	glVertex2f(300,-600);
+	glEnd();
+
+	BasketMoveDown-=1;//animation speed on Coordinate y  (швидкість спуску по у)  
+    if(BasketMoveDown<(-126))//condition traffic stop basket  (умова зупинки руху кошика  )
+	{
+	BasketMoveDown=(-126);
+	}
+	}
+    return 0;
+}
